@@ -42,20 +42,9 @@ def genConstants(P,tau,thickness):
 
     return dt,tau,P
 
-def calcJ(metal):
-    J = metal.avgVel("x")*SIZE/(TOT/DEP)
-    return(J)
-    # return metal.I/(A)
-
-def calcSigma(J):
-    return J/(E[0]+1e-15)
-
-def calcRho(sigma):
-    return 1/sigma
-
 def calcVars(metal):
-    J = calcJ(metal)
-    sigma = calcSigma(J)
+    J = metal.avgVel("x")*SIZE/(TOT/DEP)
+    sigma = J/(E[0]+1e-15)
     return 1/sigma
 
 def metalCycle(metal):
@@ -83,31 +72,32 @@ def createAnimation():
     i = 0
 
     def plotMisc(metal,rho):
+        ax2.set_ylim(0,10)
 
         plt.subplot(212)
-        plt.xlabel('Average Velocity (dx/dt)')
-        plt.ylabel('Time (t)')
-        ax2.text(0, 6,"\nResistivity:"+str(rho),horizontalalignment='left',verticalalignment='top')
-        ax.plot([-5,DIM[0]+5],[0-1,DIM[1]+1], color="white")
+        plt.ylabel('Average Velocity (dx/dt)')
+        plt.xlabel('Time (t)')
+        ax2.text(0, -.5,"\nResistivity:"+str(np.round(rho,4)),horizontalalignment='left',verticalalignment='top')
+        # ax.plot([-5,DIM[0]+5],[0-1,DIM[1]+1], color="white")
         ax2.plot(t,Vx, color="red")
         ax2.plot(t,Vy, color="blue")
-        ax2.plot(t,Vz, color="green")
         t.append(t[-1]+1)
         Vx.append(metal.avgVel("x"))
         Vy.append(metal.avgVel("y"))
-        if RANK==3:
-            Vz.append(metal.avgVel("z"))
+
+        # if RANK==3:
+        #     ax2.plot(t,Vz, color="green")
+        #     Vz.append(metal.avgVel("z"))
 
     def update(n):
         if(n>1):
             ax.cla()
             ax2.cla()
-            global E
-            # rho =calcVars(metal)
-            # plotMisc(metal,rho)
+            rho =calcVars(metal)
+            plotMisc(metal,rho)
             metal.plot(ax,fig)
             metalCycle(metal)
-            plt.autoscale(False)
+            # plt.autoscale(False)
             # ax.set_zlim3d(-1, DEP+1)
             return fig
     # Creates and displays the animation

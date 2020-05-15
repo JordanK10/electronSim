@@ -88,31 +88,19 @@ class Field(object):
         #specularly reflects a particle off of a boundary
         def specularReflect(self,i,bulk,vert):
 
-            #Only scatters off the top of the space
-            if  vert and (((SSCAT and self.pos[i]<DIM[i]/2 and uniform(0,1) < (1-P)) or \
-                (DETSCAT and self.pos[i]<DIM[i]/2 and bulk.scatgrid.isScatter(self)))):
-                self.scatter(bulk)
-                self.color="blue"
+            #Only scatters off the top of the space IF surface scattering is on
+            # if  vert and (((SSCAT and self.pos[i]<DIM[i]/2 and uniform(0,1) < (1-P)) or \
+            #     (DETSCAT and self.pos[i]<DIM[i]/2 and bulk.scatgrid.isScatter(self)))):
+            #     self.scatter(bulk)
+            #     self.color="blue"
 
-            else:
-                self.vel[i] = -self.vel[i]
+
+            self.vel[i] = -self.vel[i]
 
             if self.pos[i] > 105:
                 self.pos[i] = 95
             self.pos[i] += 2*(int(self.pos[i])-self.pos[i])
 
-        def scatter(self,bulk):
-            self.vel = randV(1,-1,False)
-            if THERM:
-                bulk.thermField.exchangeHeat(self)
-
-        #Scatters a particle either probablistically or off of a scatterer
-        def bulkScatter(self,E,bulk):
-
-            #Probablistic Scatter
-            if scatterProb(self.tau) and BULKSCAT:
-                self.scatter(bulk)
-                self.color="blue"
 
         def update2DPos(self,E,bulk):
 
@@ -127,7 +115,13 @@ class Field(object):
             if self.pos[1] > DIM[1] or self.pos[1] <0:
                 self.specularReflect(1,bulk,True)
 
-            self.bulkScatter(E,bulk.tau)
+            #BulkScatter
+            if scatterProb(self.tau) and BULKSCAT:
+                self.vel = randV(1,-1,False)
+                if THERM:
+                    bulk.thermField.exchangeHeat(self)
+                self.color="blue"
+
             self.vel += E*dt
 
         def update3DPos(self,E,bulk):
@@ -492,14 +486,15 @@ class Field(object):
             LGD = True
 
     def plot2DParticles(self,ax,fig):
-        ax.set_ylim(WID)
-        ax.set_xlim(LEN)
+        ax.set_xlim(0,LEN)
+        ax.set_ylim(0,WID)
         pos = [np.array([]) for i in range(RANK)]
         pos = [np.append(p.pos,p.color) for p in self.particles.values()]
         pos = np.transpose(pos)
 
         ax.scatter(np.array(pos[0]).astype(float), np.array(pos[1]).astype(float), alpha=.5,
            color=pos[2])
+        plt.draw()
         # x = []
         # y = []
         #

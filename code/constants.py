@@ -15,7 +15,7 @@ import os
 
 #Space dimension Parameters
 LEN = 20
-WID = 100
+WID = 10
 DEP = 5
 A = LEN*WID
 tau = 3
@@ -35,7 +35,7 @@ else:
 # #Particle Parameters
 # PROBSCAT=True
 VEL = 2
-SIZE = int(100)
+SIZE = int(500)
 Me = 1 #MeV/c (mass of electron)
 Ce= 1
 Se = .5 #
