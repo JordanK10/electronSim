@@ -18,7 +18,7 @@ LEN = 20
 WID = 10
 DEP = 5
 A = LEN*WID
-tau = 3
+tau = 5
 DT = .1
 f = 1
 

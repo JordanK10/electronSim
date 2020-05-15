@@ -59,7 +59,7 @@ def createAnimation():
     dt = DT
 
     metal = Field(E,tau,DEP,dt,0,0,SIZE)
-    fig = plt.figure(figsize=(10,10))
+    fig = plt.figure(figsize=(7,7))
     ax = fig.add_subplot(211)
     ax2 = fig.add_subplot(212)
     plt.xlabel('Average Velocity (dx/dt)')
