@@ -495,35 +495,6 @@ class Field(object):
         ax.scatter(np.array(pos[0]).astype(float), np.array(pos[1]).astype(float), alpha=.5,
            color=pos[2])
         plt.draw()
-        # x = []
-        # y = []
-        #
-        # for key,value in self.particles.items():
-        #     ax.scatter(value.pos[0],value.pos[1])
-            # p = value
-            # if SMIL == True:
-            #     arr_hand = read_png('smiley.png')
-            #     imagebox = OffsetImage(arr_hand, zoom=.025, alpha=.75)
-            # else:
-            #     arr_hand = read_png('grin.png')
-            #     imagebox = OffsetImage(arr_hand, zoom=.05, alpha=.75)
-            #
-            #
-            # x.append(p.pos[0])
-            # y.append(p.pos[1])
-            #
-            # xy = [x[-1], y[-1]]
-
-            # ab=AnnotationBbox(imagebox, xy,
-            #     xybox=(.5, -.5),
-            #     xycoords='data', frameon=False,
-            #     boxcoords="offset points")
-            #
-            # ax.plot([pos[0] for pos in p.prevPos],
-            #            [pos[1] for pos in p.prevPos],alpha=.25,color=p.color,zorder=-1)
-            # ab.set_zorder(-1)
-            # ax.add_artist(ab)
-        # self.instAvgPos=[x,y]
 
     def avgPos(self):
 

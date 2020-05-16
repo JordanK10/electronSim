@@ -12,6 +12,11 @@ from random import *
 import sys
 import time
 import os
+from bokeh.plotting import figure, curdoc
+from bokeh.driving import linear
+from bokeh.layouts import gridplot
+
+import random
 
 #Space dimension Parameters
 LEN = 20
@@ -35,7 +40,7 @@ else:
 # #Particle Parameters
 # PROBSCAT=True
 VEL = 2
-SIZE = int(500)
+SIZE = int(250)
 Me = 1 #MeV/c (mass of electron)
 Ce= 1
 Se = .5 #
