@@ -14,7 +14,9 @@ import time
 import os
 from bokeh.plotting import figure, curdoc
 from bokeh.driving import linear
-from bokeh.layouts import gridplot
+from bokeh.layouts import gridplot,row,column
+from bokeh.models import ColumnDataSource,Slider,CustomJS, Range1d
+from bokeh.io import output_file, show
 
 import random
 
@@ -23,9 +25,9 @@ LEN = 20
 WID = 10
 DEP = 5
 A = LEN*WID
-tau = 5
-DT = .1
-f = 1
+tau = [2]
+DT = .01
+f = 3
 
 RANK = 2
 if RANK == 2:
