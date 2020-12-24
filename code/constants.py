@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import math
 import matplotlib.animation as animation
 from matplotlib.offsetbox import AnnotationBbox, OffsetImage
-from matplotlib._png import read_png
 from mpl_toolkits.mplot3d import Axes3D
 from IPython.display import HTML
 import matplotlib.gridspec as gridspec
@@ -92,7 +91,7 @@ FRAMES =500
 # #Block Parameters
 # LEG=1
 # ANG=np.pi/2
-# RAD = 1
+# RAD = 1matp
 #
 # V="V"
 # S="S"
