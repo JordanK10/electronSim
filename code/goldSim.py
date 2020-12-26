@@ -44,33 +44,43 @@ metal = Field(E,tau[0],DEP,dt,0,0,SIZE)
 
 global RANK
 
+#Defining the parameters of our plots
 p1 = figure(width=500,plot_height=250, title=None, x_range=[0,LEN],y_range=[0,WID])
 p2 = figure(width=500,plot_height=150, x_axis_label='Time (t)',y_axis_label='Velocity(dx/dt)')
 
+#Defining data structures for our plot
 pos = [np.array([]) for i in range(RANK)]
 pos = [np.append(p.pos,p.color) for p in metal.particles.values()]
 pos = np.transpose(pos)
+
+#Assembling out datastructures into a data dictionary for Bokeh
 data = {"x":np.array(pos[0]).astype(float),\
         "y":np.array(pos[1]).astype(float),\
         "c":pos[2]}
 source=ColumnDataSource(data=data)
+
+#Datastreams for our plots
 r1 = p1.circle(x="x",y="y",color="c",alpha=.5,source=source)
 r2 = p2.line([],[],color="red")
 r3 = p2.line([],[],color="blue")
-
 ds1=r1.data_source
 ds2=r2.data_source
 ds3=r3.data_source
 
+#Inputs for our plot in the form of sliders
 sliderX = Slider(start=0, end=10, value=1, step=.1, title="X Electric Field Strength")
 sliderY = Slider(start=-10, end=10, value=1, step=.1, title="Y Electric Field Strength")
 slider2 = Slider(start=0.001, end=3, value=1, step=.05, title="Scattering Time")
 
+#Specifying the layout we are passing
 p=gridplot([[p1],[p2]])
-layout = column(p,sliderX,sliderY,slider2)
+layout = column(p,sliderX,sliderY,slider2,name="Bla")
 @linear()
+
 def update(step):
     # ax2.text(0, -.5,"\nResistivity:"+str(np.round(rho,4)),horizontalalignment='left',verticalalignment='top')
+
+    #Simulation content here
     t.append(t[-1]+1)
     ds2.data['x'].append(t[-1])
     ds3.data['x'].append(t[-1])
@@ -82,10 +92,13 @@ def update(step):
     pos = [np.array([]) for i in range(RANK)]
     pos = [np.append(p.pos,p.color) for p in metal.particles.values()]
     pos = np.transpose(pos)
+
+    #Updating our datastreams with new data
     ds1.data['x']=np.array(pos[0]).astype(float)
     ds1.data['y']=np.array(pos[1]).astype(float)
     ds1.data['c']=np.array(pos[2])
 
+    #Triggering new data
     ds1.trigger('data', ds1.data, ds1.data)
     ds2.trigger('data', ds2.data, ds2.data)
     ds3.trigger('data', ds3.data, ds3.data)
@@ -101,10 +114,11 @@ def tau_handler(attr, old, new):
     global tau
     tau[0]=slider2.value
 
+#Updating slider
 sliderX.on_change('value',eX_handler)
 sliderY.on_change('value',eY_handler)
 slider2.on_change('value',tau_handler)
 
-
+#Exporting our app to the HTML doc or whatever 
 curdoc().add_root(layout)
 curdoc().add_periodic_callback(update, 100)
