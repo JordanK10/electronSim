@@ -1,9 +1,12 @@
-{% extends base %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block contents %}
-<!-- <div>
-    <p> Hello {{ user_id }}, AKA '{{ last_name }}, {{ first_name }}'! </p>
-</div> -->
-
-<div> {{ embed(roots.bla) }} </div>
-{% endblock %}
+<body>
+  <div id="esim">
+    <script>
+    fetch('/initSim')
+        .then(function(response) { return response.json() })
+        .then(function(item) { return Bokeh.embed.embed_item(item) })
+    </script>
+  </div>
+</body>
